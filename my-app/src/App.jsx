@@ -33,7 +33,7 @@ const FeedbackForm = () => {
     <div className="relative min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center p-4 overflow-hidden">
       {/* Background church logo */}
       <img 
-        src="./src/assets/Rccg_logo.png" 
+        src="/assets/Rccg_logo.png" 
         alt="Church Logo" 
         className="absolute inset-0 w-full h-full object-contain opacity-10 z-0 pointer-events-none" 
       />
