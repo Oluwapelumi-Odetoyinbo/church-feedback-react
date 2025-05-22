@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const FeedbackForm = () => {
+  // form state
   const [category, setCategory] = useState('General');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [message, setMessage]   = useState('');
+  const [loading, setLoading]   = useState(false);
+
+  // initial splash loader
+  const [initLoading, setInitLoading] = useState(true);
+  useEffect(() => {
+    // simulate loading assets (you could also wait for real data)
+    const timer = setTimeout(() => setInitLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,19 +25,27 @@ const FeedbackForm = () => {
     }
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/feedback`, {
-        category,
-        message,
-      });
+      await axios.post(`${import.meta.env.VITE_API_URL}/feedback`, { category, message });
       toast.success('Thank you! Your feedback has been received.');
       setMessage('');
-    } catch (error) {
+    } catch {
       toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  // 1️⃣ Show splash loader if still initializing
+  if (initLoading) {
+    return (
+      <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+        {/* spinner */}
+        <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // 2️⃣ Once initLoading is false, show the form:
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center p-4 overflow-hidden">
       {/* Background church logo */}
@@ -44,6 +61,7 @@ const FeedbackForm = () => {
           “Let all things be done decently and in order.” – 1 Corinthians 14:40
         </p>
         <form onSubmit={handleSubmit}>
+          {/* category selector */}
           <label className="block mb-4">
             <span className="text-gray-700 font-medium">Category</span>
             <select
@@ -59,6 +77,7 @@ const FeedbackForm = () => {
             </select>
           </label>
 
+          {/* feedback textarea */}
           <label className="block mb-4">
             <span className="text-gray-700 font-medium">Your Feedback</span>
             <textarea
@@ -68,10 +87,11 @@ const FeedbackForm = () => {
               maxLength={500}
               className="mt-1 w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               placeholder="Write your feedback here..."
-            ></textarea>
+            />
             <p className="text-sm text-gray-500 text-right mt-1">{message.length}/500</p>
           </label>
 
+          {/* submit button */}
           <button
             type="submit"
             className={`w-full py-2 px-4 text-white font-semibold rounded-lg transition duration-300 ${
@@ -87,7 +107,18 @@ const FeedbackForm = () => {
           Your feedback helps us grow together in love.
         </p>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover theme="light" />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
