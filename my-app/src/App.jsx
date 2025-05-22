@@ -16,7 +16,7 @@ const FeedbackForm = () => {
     }
     setLoading(true);
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/feedback`, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/feedback`, {
         category,
         message,
       });
