@@ -46,23 +46,19 @@ const AdminFeedbackPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-3xl font-bold">📬 Submitted Feedback</h2>
-          <p className="text-gray-600">RCCG Emmanuel Parish Admin Dashboard</p>
-        </div>
-        <div className="flex gap-4">
-          <Link to="/" className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded transition">
-            Back to Form
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition"
-          >
-            Logout
-          </button>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white px-4 py-6 sm:px-8">
+      <header className="mb-8 text-center sm:text-left">
+        <h1 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-1">📬 Submitted Feedback</h1>
+        <p className="text-gray-600">RCCG Emmanuel Parish Admin Dashboard</p>
+      </header>
+
+      <div className="mb-6 flex justify-center sm:justify-start">
+        <Link
+          to="/"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-full transition duration-200"
+        >
+          ← Back to Form
+        </Link>
       </div>
 
       {loading ? (
@@ -70,34 +66,38 @@ const AdminFeedbackPage = () => {
           <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="space-y-4">
           {feedbacks.length === 0 ? (
-            <div className="bg-white p-8 rounded-xl shadow text-center">
+            <div className="bg-white rounded-xl shadow p-8 text-center">
               <p className="text-gray-500 text-lg">No feedback submissions yet.</p>
-              <p className="text-gray-400 text-sm mt-2">Feedback will appear here once members start submitting.</p>
+              <p className="text-gray-400 text-sm mt-2">
+                Feedback will appear here once members start submitting.
+              </p>
             </div>
           ) : (
             <>
-              <div className="bg-white p-4 rounded-xl shadow mb-4">
-                <p className="text-sm text-gray-600">
-                  <strong>Total Feedback:</strong> {feedbacks.length} submissions
-                </p>
+              <div className="bg-white rounded-xl shadow p-4 text-sm text-gray-700">
+                <strong>Total Feedback:</strong> {feedbacks.length} submissions
               </div>
 
-              {feedbacks.map((fb, idx) => (
-                <div key={fb._id || idx} className="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                      {fb.category}
-                    </span>
-                    <button onClick={() => handleDelete(fb._id)} className="text-red-500 hover:text-red-700 text-sm">
-                      Delete
-                    </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {feedbacks.map((fb, idx) => (
+                  <div
+                    key={fb._id || idx}
+                    className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between"
+                  >
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-700">
+                        {fb.category}
+                      </span>
+                    </div>
+
+                    <p className="text-gray-800 text-sm leading-relaxed mb-4">{fb.message}</p>
+
+                    <p className="text-xs text-gray-400 text-right">{new Date(fb.createdAt).toLocaleString()}</p>
                   </div>
-                  <p className="text-gray-800 mb-3 leading-relaxed">{fb.message}</p>
-                  <p className="text-xs text-gray-400 text-right">{new Date(fb.createdAt).toLocaleString()}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </>
           )}
         </div>
