@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AdminFeedbackPage from "./AdminFeedbackPage";
+
 
 const FeedbackForm = () => {
   // form state
@@ -9,6 +12,9 @@ const FeedbackForm = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  
+
 
   // initial splash loader
   const [initLoading, setInitLoading] = useState(true);
@@ -132,7 +138,7 @@ const FeedbackForm = () => {
       />
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-md">
           <div className="bg-white rounded-xl p-6 shadow-2xl w-full max-w-md animate-fadeIn">
             <h3 className="text-2xl font-bold mb-2 text-center text-indigo-700">
               🙏 Thank You!
