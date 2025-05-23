@@ -52,15 +52,6 @@ const AdminFeedbackPage = () => {
         <p className="text-gray-600">RCCG Emmanuel Parish Admin Dashboard</p>
       </header>
 
-      <div className="mb-6 flex justify-center sm:justify-start">
-        <Link
-          to="/"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-full transition duration-200"
-        >
-          ← Back to Form
-        </Link>
-      </div>
-
       {loading ? (
         <div className="flex justify-center items-center h-40">
           <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
